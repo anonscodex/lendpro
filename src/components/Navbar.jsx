@@ -1,15 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleNavbar = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <nav className="p-4 bg-black">
+    <nav className="bg-gray-800 p-4">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-2xl font-bold text-primary">LendPro</div>
-        <div className="flex space-x-4">
-          <a href="/" className="hover:text-primary">Home</a>
-          <a href="/dashboard" className="hover:text-primary">Dashboard</a>
-          <a href="/join" className="hover:text-primary">Join Cooperative</a>
+        {/* Hamburger Menu for Mobile */}
+        <div className="md:hidden">
+          <button onClick={toggleNavbar} className="text-white focus:outline-none">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        {/* Navbar Links */}
+        <div
+          className={`md:flex md:items-center space-x-4 ${isOpen ? "block" : "hidden"}`}
+        >
+          <Link to="/" className="text-white hover:text-primary">
+            Home
+          </Link>
+          <Link to="/dashboard" className="text-white hover:text-primary">
+            Dashboard
+          </Link>
+          <Link to="/join" className="text-white hover:text-primary">
+            Join Cooperative
+          </Link>
           
         </div>
       </div>

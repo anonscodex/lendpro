@@ -2,22 +2,15 @@ import React from "react";
 
 const CooperativeCard = ({ cooperative }) => {
   return (
-    <div className="bg-gray-700 p-6 rounded-lg shadow-lg flex flex-row items-center justify-between">
-      {/* Left Section: Cooperative Details */}
-      <div className="flex-1">
-        <h2 className="text-2xl font-bold text-primary mb-2">{cooperative.name}</h2>
-        <div className="flex space-x-4">
-          <p className="text-white text-lg">Members: {cooperative.members}</p>
-          <p className="text-white text-lg">Funds: ${cooperative.funds}</p>
-        </div>
+    <div className="bg-gray-700 p-4 rounded-lg shadow-lg">
+      <h2 className="text-xl font-bold text-primary mb-2">{cooperative.name}</h2>
+      <div className="flex space-x-4">
+        <p className="text-white text-lg">Members: {cooperative.members}</p>
+        <p className="text-white text-lg">Funds: ${cooperative.funds}</p>
       </div>
-
-      {/* Right Section: Action Button */}
-      <div>
-        <button className="bg-primary px-6 py-3 rounded-lg text-lg hover:bg-purple-700 transition duration-300">
-          View Details
-        </button>
-      </div>
+      <button className="mt-4 bg-primary px-4 py-2 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
+        View Details
+      </button>
     </div>
   );
 };

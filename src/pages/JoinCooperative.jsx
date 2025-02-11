@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const JoinCooperative = () => {
   const cooperatives = [
@@ -7,25 +8,20 @@ const JoinCooperative = () => {
   ];
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-primary mb-6">Join a Cooperative</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-background text-white p-4">
+      <h1 className="text-4xl font-bold text-primary mb-12 text-center">
+        Join a Cooperative
+      </h1>
+      <div className="w-full max-w-4xl space-y-6">
         {cooperatives.map((coop) => (
-          <div key={coop.id} className="bg-gray-700 p-4 rounded-lg flex items-center justify-between shadow-lg">
-            
-            {/* Left section */}
-            <div className="flex-1">
-              <h2 className="text-xl font-bold text-primary">{coop.name}</h2>
-              <p className="text-gray-300">Purpose: {coop.purpose}</p>
-              <p className="text-gray-300">Members: {coop.members}</p>
-              <p className="text-gray-300">Funds: ${coop.funds}</p>
-            </div>
-
-            {/* Right section */}
-            <button className="bg-primary px-4 py-2 rounded">
+          <div key={coop.id} className="bg-gray-700 p-6 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold text-primary mb-4">{coop.name}</h2>
+            <p className="text-white text-lg">Purpose: {coop.purpose}</p>
+            <p className="text-white text-lg">Members: {coop.members}</p>
+            <p className="text-white text-lg mb-6">Funds: ${coop.funds}</p>
+            <button className="bg-primary px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
               Request to Join
             </button>
-
           </div>
         ))}
       </div>

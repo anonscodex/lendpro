@@ -4,14 +4,9 @@ import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Dashboard";
 import CooperativeDetails from "./pages/CooperativeDetails";
 import JoinCooperative from "./pages/JoinCooperative";
-import Cooperative from "./pages/Cooperative";
-
-
-
-
-
-import Navbar from "./components/Navbar";
+import LendingActivity from "./pages/LendingActivity";
 import BorrowFunds from "./pages/BorrowFunds";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
@@ -23,12 +18,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/cooperative/:id" element={<CooperativeDetails />} />
           <Route path="/join" element={<JoinCooperative />} />
-          <Route path="/cooperative" element={<Cooperative />} />
-          <Route path="/borrowfunds" element={<BorrowFunds />} />
-          
-         
-          
-          
+          <Route path="/lending" element={<LendingActivity />} />
+          <Route path="/borrow" element={<BorrowFunds />} />
         </Routes>
       </div>
     </Router>
