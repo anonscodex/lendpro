@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+  /* Animated Dotted Background */
+@keyframes moveDots {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 20px 20px;
+    }
+  }
+  
+  .bg-dotted-pattern {
+    background-image: radial-gradient(circle, #ffffff 1px, transparent 1px);
+    background-size: 20px 20px;
+    animation: moveDots 5s linear infinite; /* Adjust animation duration */
+  }
