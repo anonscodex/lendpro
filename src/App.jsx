@@ -7,6 +7,7 @@ import JoinCooperative from "./pages/JoinCooperative";
 //import LendingActivity from "./pages/LendingActivity";
 import BorrowFunds from "./pages/BorrowFunds";
 import Navbar from "./components/Navbar";
+import Cooperative from "./pages/Cooperative";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/cooperative/:id" element={<CooperativeDetails />} />
           <Route path="/join" element={<JoinCooperative />} />
-         
+         <Route path="/cooperative" element={<Cooperative />} />
           <Route path="/borrow" element={<BorrowFunds />} />
         </Routes>
       </div>
