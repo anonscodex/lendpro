@@ -4,7 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Dashboard";
 import CooperativeDetails from "./pages/CooperativeDetails";
 import JoinCooperative from "./pages/JoinCooperative";
-import LendingActivity from "./pages/LendingActivity";
+//import LendingActivity from "./pages/LendingActivity";
 import BorrowFunds from "./pages/BorrowFunds";
 import Navbar from "./components/Navbar";
 
