@@ -18,7 +18,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/cooperative/:id" element={<CooperativeDetails />} />
           <Route path="/join" element={<JoinCooperative />} />
-          <Route path="/lending" element={<LendingActivity />} />
+         
           <Route path="/borrow" element={<BorrowFunds />} />
         </Routes>
       </div>
