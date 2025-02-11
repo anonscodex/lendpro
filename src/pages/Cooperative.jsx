@@ -14,11 +14,11 @@ const Cooperatives = () => {
       <h1 className="text-4xl font-bold text-primary mb-12 text-center">
         Cooperatives
       </h1>
-      <div className="w-full max-w-4xl space-x-6 space-x-12">
+      <div className="w-full max-w-4xl space-y-6">
         {cooperatives.map((coop) => (
           <Link to={`/cooperative/${coop.id}`} key={coop.id}>
-            <div className="bg-gray-700 p-6 rounded-lg shadow-lg flex flex-row items-center justify-between">
-              <div className="flex-1">
+            <div className="bg-gray-700 p-6 rounded-lg shadow-lg flex flex-col md:flex-row items-center justify-between">
+              <div className="flex-1 mb-4 md:mb-0">
                 <h2 className="text-2xl font-bold text-primary mb-2">{coop.name}</h2>
                 <div className="flex space-x-4">
                   <p className="text-white text-lg">Members: {coop.members}</p>
@@ -26,7 +26,7 @@ const Cooperatives = () => {
                 </div>
               </div>
               <div>
-                <button className="bg-primary px-6 py-3 rounded-lg text-lg hover:bg-purple-700 transition duration-300">
+                <button className="bg-primary px-6 py-3 rounded-lg text-lg hover:bg-purple-700 transition duration-300 w-full md:w-auto">
                   View Details
                 </button>
               </div>
