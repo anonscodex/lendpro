@@ -34,18 +34,37 @@ const Navbar = () => {
         </div>
         {/* Navbar Links */}
         <div
-          className={`md:flex md:items-center space-x-4 ${isOpen ? "block" : "hidden"}`}
+          className={`fixed md:static md:flex md:items-center space-x-4 bg-gray-800 md:bg-transparent p-4 md:p-0 top-0 right-0 h-full w-64 md:w-auto transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"} md:translate-x-0`}
         >
-          <Link to="/" className="text-white hover:text-primary">
+          <button
+            onClick={toggleNavbar}
+            className="md:hidden text-white absolute top-4 right-4"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+          <Link to="/" className="block text-white hover:text-primary mt-8 md:mt-0">
             Home
           </Link>
-          <Link to="/dashboard" className="text-white hover:text-primary">
+          <Link to="/dashboard" className="block text-white hover:text-primary">
             Dashboard
           </Link>
-          <Link to="/join" className="text-white hover:text-primary">
+          <Link to="/join" className="block text-white hover:text-primary">
             Join Cooperative
           </Link>
-          
+         
         </div>
       </div>
     </nav>
