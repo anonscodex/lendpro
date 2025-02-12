@@ -111,7 +111,7 @@ const CooperativeDetails = () => {
             <button className="bg-primary px-2 py-2  rounded-lg text-sm hover:bg-purple-700 transition duration-300 ">
               Contribute Funds
             </button>
-            <Link to="/borrowfunds">
+            <Link to="/borrow">
             <button className="bg-primary px-2 py-2 rounded-lg text-sm hover:bg-purple-700 transition duration-300">
               Borrow Funds
             </button>
