@@ -15,7 +15,7 @@ const LandingPage = () => {
         <p className="text-xl md:text-2xl text-gray-300 mb-12 text-center font-poppins">
           A decentralized lending protocol for cooperatives.
         </p>
-        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
+        <div className="flex flex-col items-center md:flex-row space-y-4 md:space-y-0 md:space-x-6">
           <Link to="/dashboard">
             <button className="bg-primary px-6 py-3 md:px-8 md:py-4 rounded-lg text-lg md:text-xl hover:bg-purple-700 transition duration-300 font-poppins">
               Create a Cooperative

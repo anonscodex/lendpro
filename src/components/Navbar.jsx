@@ -1,16 +1,22 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation(); // Get the current route location
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
 
+  // Close the navbar when the route changes
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]); // Triggered whenever the route changes
+
   return (
-    <nav className="bg-gray-800 p-4">
+    <nav className="bg-gray-800 p-4 fixed w-full z-50">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-2xl font-bold text-primary">LendPro</div>
         {/* Hamburger Menu for Mobile */}
@@ -34,7 +40,7 @@ const Navbar = () => {
         </div>
         {/* Navbar Links */}
         <div
-          className={`fixed md:static md:flex md:items-center space-x-4 bg-gray-800 md:bg-transparent p-4 md:p-0 top-0 right-0 h-full w-64 md:w-auto transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"} md:translate-x-0`}
+          className={`fixed md:static md:flex md:items-center space-x-4 bg-gray-800 md:bg-transparent p-4 md:p-0 top-0 right-0 h-full w-64 md:w-auto transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"} md:translate-x-0 z-40`}
         >
           <button
             onClick={toggleNavbar}
@@ -64,7 +70,7 @@ const Navbar = () => {
           <Link to="/join" className="block text-white hover:text-primary">
             Join Cooperative
           </Link>
-         
+      
         </div>
       </div>
     </nav>
