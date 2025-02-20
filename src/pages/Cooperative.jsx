@@ -11,13 +11,13 @@ const Cooperatives = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background text-white p-4">
-      <h1 className="text-4xl font-bold text-primary mb-12 text-center">
+      <h1 className="text-4xl mt-16 font-bold text-primary mb-12 text-center">
         Cooperatives
       </h1>
       <div className="w-full max-w-4xl space-y-6">
         {cooperatives.map((coop) => (
           <Link to={`/cooperative/${coop.id}`} key={coop.id}>
-            <div className="bg-gray-700 p-6 rounded-lg shadow-lg flex flex-col md:flex-row items-center justify-between">
+            <div className="bg-gray-700 p-6 mt-4 rounded-lg shadow-lg flex flex-col md:flex-row items-center justify-between">
               <div className="flex-1 mb-4 md:mb-0">
                 <h2 className="text-2xl font-bold text-primary mb-2">{coop.name}</h2>
                 <div className="flex space-x-4">

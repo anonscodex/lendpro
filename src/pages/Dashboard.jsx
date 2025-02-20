@@ -1,5 +1,6 @@
 import React from "react";
 import CooperativeCard from "../components/CooperativeCard";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   // Dummy data for cooperatives the user is part of
@@ -36,18 +37,24 @@ const Dashboard = () => {
         <div className="bg-gray-700 p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold text-primary mb-6">Quick Actions</h2>
           <div className="space-y-4">
-            <button className="bg-primary px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
+            <Link to="/cooperative">
+            <button className="bg-primary mb-4 px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
               View Cooperative Details
             </button>
-            <button className="bg-primary px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
+            </Link>
+            <Link to="/create-cooperative">
+            <button className="bg-primary  px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
               Create a New Cooperative
             </button>
-            <button className="bg-primary px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
+            </Link>
+            <button className="bg-primary mb-4 px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
               Contribute Funds
             </button>
-            <button className="bg-primary px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
+            <Link to="/join">
+            <button className="bg-primary mt-4 px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
               Request to Join a Cooperative
             </button>
+            </Link>
             <button className="bg-primary px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
               Borrow Funds
             </button>
