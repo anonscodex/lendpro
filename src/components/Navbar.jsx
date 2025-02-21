@@ -16,7 +16,7 @@ const Navbar = () => {
   }, [location]); // Triggered whenever the route changes
 
   return (
-    <nav className="bg-gray-800 p-4 fixed w-full z-50">
+    <nav className="bg-black p-4 fixed w-full z-50">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-2xl font-bold text-primary">LendPro</div>
         {/* Hamburger Menu for Mobile */}
