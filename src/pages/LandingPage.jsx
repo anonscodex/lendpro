@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+
+
+
 const LandingPage = () => {
   return (
     <div className="min-h-screen bg-background text-white p-4 relative overflow-hidden">
@@ -26,6 +29,8 @@ const LandingPage = () => {
               View Cooperatives
             </button>
           </Link>
+
+          
         </div>
       </div>
     </div>

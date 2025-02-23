@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import WalletConnection from "../components/WalletConnection";
 
 
 const Navbar = () => {
@@ -70,7 +71,7 @@ const Navbar = () => {
           <Link to="/join" className="block text-white hover:text-primary">
             Join Cooperative
           </Link>
-      
+          <WalletConnection />
         </div>
       </div>
     </nav>
