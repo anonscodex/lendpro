@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import { GasPrice } from "@cosmjs/stargate";
 
 const Cooperatives = () => {
   const cooperatives = [
@@ -8,6 +10,36 @@ const Cooperatives = () => {
     { id: 3, name: "Coop 3", members: 8, funds: 800 },
     { id: 4, name: "Coop 4", members: 12, funds: 1200 },
   ];
+  const CHAIN_ID = "pion-1";
+  const RPC_ENDPOINT = "https://rpc-palvus.pion-1.ntrn.tech";
+  const CONTRACT_ADDRESS = "neutron1hjle7jv48ejfsq54lt8x6g6d7n4s7vxaln5rkt5tl09ms3x0tsssyf4vft";
+
+  const cooperativeName = "Abdullah Yusuf";
+
+  const handleViewDetails = async({cooperativeName}) => {
+
+    const offlineSigner = window.keplr.getOfflineSigner(CHAIN_ID)
+        // Create a signing client
+              const client = await SigningCosmWasmClient.connectWithSigner(
+                RPC_ENDPOINT,
+                offlineSigner,
+                { gasPrice: GasPrice.fromString("0.025untrn") } // Neutron gas denom
+              );
+
+              const query = {
+                get_cooperative: {
+                  cooperative_name: "Abdullah Yusuf",
+                },
+              };
+          
+              try {
+                const result = await client.queryContractSmart(CONTRACT_ADDRESS, query);
+                console.log(result);
+              } catch (error) {
+                console.error("Failed to get cooperative:", error);
+                throw error;
+              }
+   } 
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background text-white p-4">
@@ -26,7 +58,8 @@ const Cooperatives = () => {
                 </div>
               </div>
               <div>
-                <button className="bg-primary px-6 py-3 rounded-lg text-lg hover:bg-purple-700 transition duration-300 w-full md:w-auto">
+                <button className="bg-primary px-6 py-3 rounded-lg text-lg hover:bg-purple-700 transition duration-300 w-full md:w-auto"
+                onClick={handleViewDetails}>
                   View Details
                 </button>
               </div>

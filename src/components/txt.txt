@@ -1,0 +1,134 @@
+"use client";
+
+import React, { useState } from "react";
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import { GasPrice } from "@cosmjs/stargate";
+
+import { Window as KeplrWindow } from "@keplr-wallet/types";
+
+declare global {
+  interface Window extends KeplrWindow {}
+}
+
+const CreateCooperative = () => {
+  const [account, setAccount] = useState("");
+  const [name, setName] = useState("");
+  const [riskProfile, setRiskProfile] = useState("medium");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const CONTRACT_ADDRESS = "your_contract_address_here";
+  const CHAIN_ID = "your_chain_id_here";
+  const RPC_ENDPOINT = "your_rpc_endpoint_here";
+
+  const connectWallet = async () => {
+    try {
+      if (!window.keplr) {
+        throw new Error("Please install Keplr extension");
+      }
+      await window.keplr.enable(CHAIN_ID);
+      const key = await window.keplr.getKey(CHAIN_ID);
+      setAccount(key.bech32Address);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const createCooperative = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      setSuccess("");
+
+      if (!window.keplr || !account) {
+        throw new Error("Please connect your wallet first");
+      }
+
+      const msg = {
+        create_cooperative: {
+          name,
+          risk_profile: riskProfile,
+          initial_members: [account],
+          initial_whitelisted_tokens: []
+        }
+      };
+
+      const offlineSigner = window.keplr.getOfflineSigner(CHAIN_ID);
+      const client = await SigningCosmWasmClient.connectWithSigner(
+        RPC_ENDPOINT,
+        offlineSigner,
+        { gasPrice: GasPrice.fromString("0.025untrn") }
+      );
+
+      const result = await client.execute(
+        account,
+        CONTRACT_ADDRESS,
+        msg,
+        "auto"
+      );
+
+      console.log("Cooperative created successfully:", result);
+      setSuccess("Cooperative created successfully!");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Card className="w-full max-w-lg mx-auto mt-8 bg-gray-100">
+      <CardHeader>
+        <CardTitle className="text-blue-600">Create a Cooperative</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {!account ? (
+            <Button onClick={connectWallet} className="w-full bg-blue-500 hover:bg-blue-700 text-white">
+              Connect Keplr Wallet
+            </Button>
+          ) : (
+            <Alert className="bg-green-100 text-green-800">
+              <AlertDescription>Connected: {account.slice(0, 8)}...{account.slice(-8)}</AlertDescription>
+            </Alert>
+          )}
+
+          <div className="space-y-2">
+            <Label htmlFor="name" className="text-blue-600">Cooperative Name</Label>
+            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter name" className="border-blue-500" />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="riskProfile" className="text-blue-600">Risk Profile</Label>
+            <Input id="riskProfile" value={riskProfile} onChange={(e) => setRiskProfile(e.target.value)} placeholder="Enter risk profile" className="border-blue-500" />
+          </div>
+
+          {error && (
+            <Alert variant="destructive" className="bg-red-100 text-red-800">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          {success && (
+            <Alert className="bg-green-100 text-green-800">
+              <AlertDescription>{success}</AlertDescription>
+            </Alert>
+          )}
+
+          <Button onClick={createCooperative} disabled={!account || loading || !name} className="w-full bg-blue-500 hover:bg-blue-700 text-white">
+            {loading ? "Processing..." : "Create Cooperative"}
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default CreateCooperative;
