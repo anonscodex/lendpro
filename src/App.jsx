@@ -9,6 +9,7 @@ import BorrowFunds from "./pages/BorrowFunds";
 import Navbar from "./components/Navbar";
 import Cooperative from "./pages/Cooperative";
 import CreateCooperative from "./pages/CreateCooperative";
+import RepayFund from "./pages/RepayFund";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
          <Route path="/cooperative" element={<Cooperative />} />
           <Route path="/borrow" element={<BorrowFunds />} />
           <Route path="/create-cooperative" element={<CreateCooperative />} />
+          <Route path="/repay" element={<RepayFund />} />
         </Routes>
       </div>
     </Router>

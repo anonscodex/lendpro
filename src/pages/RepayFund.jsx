@@ -2,20 +2,13 @@ import React, { useState } from "react";
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { GasPrice } from "@cosmjs/stargate";
 
-const BorrowFunds = () => {
+const RepayLoan = () => {
   const [formData, setFormData] = useState({
-    loanAmount: "",
-    interestRate: "",
-    duration: "",
     cooperativeName: "",
-    tokensIn: "",
-    tokenOut: "",
-    minAmountOut: "",
+    token: "",
+    funds: "",
   });
   const [notification, setNotification] = useState(null);
-
-  const userContribution = 500; // Example contribution
-  const borrowingLimit = userContribution * 2; // Example limit
 
   const CHAIN_ID = "pion-1";
   const RPC_ENDPOINT = "https://rpc-palvus.pion-1.ntrn.tech";
@@ -33,15 +26,7 @@ const BorrowFunds = () => {
     e.preventDefault();
 
     // Basic validation
-    if (
-      !formData.loanAmount ||
-      !formData.interestRate ||
-      !formData.duration ||
-      !formData.cooperativeName ||
-      !formData.tokensIn ||
-      !formData.tokenOut ||
-      !formData.minAmountOut
-    ) {
+    if (!formData.cooperativeName || !formData.token || !formData.funds) {
       alert("Please fill out all fields.");
       return;
     }
@@ -70,18 +55,22 @@ const BorrowFunds = () => {
         { gasPrice: GasPrice.fromString("0.025untrn") } // Neutron gas denom
       );
 
-      // Execute the borrow function
-      const funds = []; // Add funds if required by the contract
+      // Prepare funds (convert to the correct format)
+      const funds = [
+        {
+          denom: formData.token, // Token denom (e.g., "untrn")
+          amount: formData.funds, // Amount as a string (e.g., "1000000")
+        },
+      ];
+
+      // Execute the repay function
       const result = await client.execute(
         userAddress, // Use the user's address
         CONTRACT_ADDRESS,
         {
-          borrow: {
+          repay: {
             cooperative_name: formData.cooperativeName,
-            tokens_in: formData.tokensIn,
-            amount_in: formData.loanAmount,
-            token_out: formData.tokenOut,
-            min_amount_out: formData.minAmountOut,
+            token: formData.token,
           },
         },
         "auto",
@@ -89,11 +78,11 @@ const BorrowFunds = () => {
         funds
       );
 
-      console.log("Borrow executed:", result);
-      setNotification("Borrow request submitted successfully!");
+      console.log("Loan repaid:", result);
+      setNotification("Loan repayment submitted successfully!");
     } catch (error) {
-      console.error("Failed to borrow:", error);
-      setNotification("Failed to submit borrow request. Please try again.");
+      console.error("Failed to repay loan:", error);
+      setNotification("Failed to submit loan repayment. Please try again.");
     }
   };
 
@@ -121,14 +110,10 @@ const BorrowFunds = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background text-white p-4">
       <h1 className="text-4xl font-bold text-primary mb-12 text-center">
-        Borrow Funds
+        Repay Loan
       </h1>
       <div className="bg-gray-700 p-6 rounded-lg shadow-lg w-full max-w-2xl">
-        <h2 className="text-2xl font-bold text-primary mb-4">Eligibility</h2>
-        <p className="text-white text-lg">Your Contribution: ${userContribution}</p>
-        <p className="text-white text-lg mb-6">Borrowing Limit: ${borrowingLimit}</p>
-
-        <h2 className="text-2xl font-bold text-primary mb-4">Loan Details</h2>
+        <h2 className="text-2xl font-bold text-primary mb-4">Loan Repayment</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-white text-lg mb-2">Cooperative Name</label>
@@ -143,74 +128,26 @@ const BorrowFunds = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-white text-lg mb-2">Loan Amount</label>
-            <input
-              type="number"
-              name="loanAmount"
-              value={formData.loanAmount}
-              onChange={handleChange}
-              className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter amount"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-white text-lg mb-2">Interest Rate (%)</label>
-            <input
-              type="number"
-              name="interestRate"
-              value={formData.interestRate}
-              onChange={handleChange}
-              className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter interest rate"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-white text-lg mb-2">Duration (Months)</label>
-            <input
-              type="number"
-              name="duration"
-              value={formData.duration}
-              onChange={handleChange}
-              className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter duration"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-white text-lg mb-2">Tokens In</label>
+            <label className="block text-white text-lg mb-2">Token</label>
             <input
               type="text"
-              name="tokensIn"
-              value={formData.tokensIn}
+              name="token"
+              value={formData.token}
               onChange={handleChange}
               className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter tokens in"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-white text-lg mb-2">Token Out</label>
-            <input
-              type="text"
-              name="tokenOut"
-              value={formData.tokenOut}
-              onChange={handleChange}
-              className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter token out"
+              placeholder="Enter token denom (e.g., untrn)"
               required
             />
           </div>
           <div className="mb-6">
-            <label className="block text-white text-lg mb-2">Minimum Amount Out</label>
+            <label className="block text-white text-lg mb-2">Amount</label>
             <input
               type="number"
-              name="minAmountOut"
-              value={formData.minAmountOut}
+              name="funds"
+              value={formData.funds}
               onChange={handleChange}
               className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter minimum amount out"
+              placeholder="Enter amount to repay"
               required
             />
           </div>
@@ -218,7 +155,7 @@ const BorrowFunds = () => {
             type="submit"
             className="bg-primary px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300"
           >
-            Submit Request
+            Repay Loan
           </button>
         </form>
 
@@ -232,4 +169,4 @@ const BorrowFunds = () => {
   );
 };
 
-export default BorrowFunds;
+export default RepayLoan;
