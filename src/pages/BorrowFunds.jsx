@@ -19,7 +19,7 @@ const BorrowFunds = () => {
 
   const CHAIN_ID = "pion-1";
   const RPC_ENDPOINT = "https://rpc-palvus.pion-1.ntrn.tech";
-  const CONTRACT_ADDRESS = "your-contract-address"; // Replace with your contract address
+  const CONTRACT_ADDRESS = "neutron1hjle7jv48ejfsq54lt8x6g6d7n4s7vxaln5rkt5tl09ms3x0tsssyf4vft"; // Replace with your contract address
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -120,10 +120,10 @@ const BorrowFunds = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background text-white p-4">
-      <h1 className="text-4xl font-bold text-primary mb-12 text-center">
+      <h1 className="text-4xl font-bold text-primary mt-16 text-center">
         Borrow Funds
       </h1>
-      <div className="bg-gray-700 p-6 rounded-lg shadow-lg w-full max-w-2xl">
+      <div className="bg-gray-700 mt-16 p-6 rounded-lg shadow-lg w-full max-w-2xl">
         <h2 className="text-2xl font-bold text-primary mb-4">Eligibility</h2>
         <p className="text-white text-lg">Your Contribution: ${userContribution}</p>
         <p className="text-white text-lg mb-6">Borrowing Limit: ${borrowingLimit}</p>
