@@ -5,6 +5,7 @@ const JoinCooperative = () => {
   const cooperatives = [
     { id: 1, name: "Coop 1", purpose: "Decentralized Lending", members: 10, funds: 1000 },
     { id: 2, name: "Coop 2", purpose: "Community Funding", members: 5, funds: 500 },
+    { id: 3, name: "Coop 3", purpose: "Community Funding", members: 5, funds: 500 },
   ];
 
   return (
