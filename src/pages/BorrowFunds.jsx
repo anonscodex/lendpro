@@ -4,22 +4,23 @@ import { GasPrice } from "@cosmjs/stargate";
 
 const BorrowFunds = () => {
   const [formData, setFormData] = useState({
-    loanAmount: "",
-    interestRate: "",
-    duration: "",
     cooperativeName: "",
-    tokensIn: "",
-    tokenOut: "",
-    minAmountOut: "",
+    tokensIn: "", // Comma-separated list of token addresses
+    amountsIn: "", // Comma-separated list of amounts
+    tokenOut: "", // Address of the token to borrow
+    minAmountOut: "", // Minimum amount of token_out to receive
   });
   const [notification, setNotification] = useState(null);
 
-  const userContribution = 500; // Example contribution
-  const borrowingLimit = userContribution * 2; // Example limit
-
   const CHAIN_ID = "pion-1";
   const RPC_ENDPOINT = "https://rpc-palvus.pion-1.ntrn.tech";
-  const CONTRACT_ADDRESS = "neutron1hjle7jv48ejfsq54lt8x6g6d7n4s7vxaln5rkt5tl09ms3x0tsssyf4vft"; // Replace with your contract address
+  const CONTRACT_ADDRESS = "neutron16qhawx7cy6cmte2jluu39d6j09emzml5yvmhdglyz0re99v6wpms0rh63m"; // Replace with your contract address
+
+  // Example list of valid tokens (replace with actual tokens from your contract)
+  const validTokens = [
+    { denom: "untrn", isNative: true }, // Native token
+    { denom: "tAtom", isNative: false }, // CW20 token 1
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,16 +30,24 @@ const BorrowFunds = () => {
     });
   };
 
+  const validateTokens = (tokens) => {
+    const tokenList = tokens.split(",").map((token) => token.trim());
+    for (const token of tokenList) {
+      const isValid = validTokens.some((validToken) => validToken.denom === token);
+      if (!isValid) {
+        throw new Error(`Invalid token: ${token}`);
+      }
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Basic validation
     if (
-      !formData.loanAmount ||
-      !formData.interestRate ||
-      !formData.duration ||
       !formData.cooperativeName ||
       !formData.tokensIn ||
+      !formData.amountsIn ||
       !formData.tokenOut ||
       !formData.minAmountOut
     ) {
@@ -47,6 +56,10 @@ const BorrowFunds = () => {
     }
 
     try {
+      // Validate tokens
+      validateTokens(formData.tokensIn);
+      validateTokens(formData.tokenOut);
+
       // Ensure Keplr is installed and connected
       if (!window.keplr) {
         alert("Please install Keplr wallet to proceed.");
@@ -70,64 +83,42 @@ const BorrowFunds = () => {
         { gasPrice: GasPrice.fromString("0.025untrn") } // Neutron gas denom
       );
 
+      // Prepare the borrow message
+      const tokensIn = formData.tokensIn.split(",").map((token) => token.trim()); // Convert to Vec<Addr>
+      const amountsIn = formData.amountsIn.split(",").map((amount) => amount.trim()); // Convert to Vec<Uint128>
+
+      const msg = {
+        borrow: {
+          cooperative_name: formData.cooperativeName,
+          tokens_in: tokensIn,
+          amount_in: amountsIn,
+          token_out: formData.tokenOut,
+          min_amount_out: formData.minAmountOut,
+        },
+      };
+
       // Execute the borrow function
-      const funds = []; // Add funds if required by the contract
       const result = await client.execute(
         userAddress, // Use the user's address
         CONTRACT_ADDRESS,
-        {
-          borrow: {
-            cooperative_name: formData.cooperativeName,
-            tokens_in: formData.tokensIn,
-            amount_in: formData.loanAmount,
-            token_out: formData.tokenOut,
-            min_amount_out: formData.minAmountOut,
-          },
-        },
-        "auto",
-        undefined,
-        funds
+        msg,
+        "auto"
       );
 
       console.log("Borrow executed:", result);
       setNotification("Borrow request submitted successfully!");
     } catch (error) {
       console.error("Failed to borrow:", error);
-      setNotification("Failed to submit borrow request. Please try again.");
+      setNotification(`Failed to submit borrow request: ${error.message}`);
     }
   };
 
-  if (!window.keplr) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-background text-white p-4">
-        <h1 className="text-4xl font-bold text-primary mb-12 text-center">
-          Keplr Wallet Required
-        </h1>
-        <p className="text-white text-lg mb-6">
-          Please install the Keplr wallet to use this application.
-        </p>
-        <a
-          href="https://www.keplr.app/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-primary px-6 py-3 rounded-lg text-lg hover:bg-purple-700 transition duration-300"
-        >
-          Install Keplr
-        </a>
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background text-white p-4">
-      <h1 className="text-4xl font-bold text-primary mt-16 text-center">
+      <h1 className="text-4xl font-bold text-primary mb-12 text-center">
         Borrow Funds
       </h1>
-      <div className="bg-gray-700 mt-16 p-6 rounded-lg shadow-lg w-full max-w-2xl">
-        <h2 className="text-2xl font-bold text-primary mb-4">Eligibility</h2>
-        <p className="text-white text-lg">Your Contribution: ${userContribution}</p>
-        <p className="text-white text-lg mb-6">Borrowing Limit: ${borrowingLimit}</p>
-
+      <div className="bg-gray-700 p-6 rounded-lg shadow-lg w-full max-w-2xl">
         <h2 className="text-2xl font-bold text-primary mb-4">Loan Details</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -143,62 +134,41 @@ const BorrowFunds = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-white text-lg mb-2">Loan Amount</label>
-            <input
-              type="number"
-              name="loanAmount"
-              value={formData.loanAmount}
-              onChange={handleChange}
-              className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter amount"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-white text-lg mb-2">Interest Rate (%)</label>
-            <input
-              type="number"
-              name="interestRate"
-              value={formData.interestRate}
-              onChange={handleChange}
-              className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter interest rate"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-white text-lg mb-2">Duration (Months)</label>
-            <input
-              type="number"
-              name="duration"
-              value={formData.duration}
-              onChange={handleChange}
-              className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter duration"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-white text-lg mb-2">Tokens In</label>
+            <label className="block text-white text-lg mb-2">Tokens In (comma-separated addresses)</label>
             <input
               type="text"
               name="tokensIn"
               value={formData.tokensIn}
               onChange={handleChange}
               className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter tokens in"
+              placeholder="Enter token addresses (e.g., untrn, neutron1contractaddress1)"
+              required
+            />
+            <p className="text-sm text-gray-400 mt-1">
+              Valid tokens: untrn, neutron1contractaddress1, neutron1contractaddress2
+            </p>
+          </div>
+          <div className="mb-4">
+            <label className="block text-white text-lg mb-2">Amounts In (comma-separated amounts)</label>
+            <input
+              type="text"
+              name="amountsIn"
+              value={formData.amountsIn}
+              onChange={handleChange}
+              className="w-full bg-gray-600 p-3 rounded-lg text-white"
+              placeholder="Enter amounts (e.g., 100, 200)"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-white text-lg mb-2">Token Out</label>
+            <label className="block text-white text-lg mb-2">Token Out (address)</label>
             <input
               type="text"
               name="tokenOut"
               value={formData.tokenOut}
               onChange={handleChange}
               className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter token out"
+              placeholder="Enter token out address"
               required
             />
           </div>

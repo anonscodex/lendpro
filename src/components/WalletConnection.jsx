@@ -11,7 +11,7 @@ if (typeof window !== "undefined") {
 const WalletConnection = () => {
   const [account, setAccount] = useState('');
 
-  const CONTRACT_ADDRESS = "neutron1hjle7jv48ejfsq54lt8x6g6d7n4s7vxaln5rkt5tl09ms3x0tsssyf4vft";
+  const CONTRACT_ADDRESS = "neutron16qhawx7cy6cmte2jluu39d6j09emzml5yvmhdglyz0re99v6wpms0rh63m";
   const CHAIN_ID = "pion-1";
   const RPC_ENDPOINT = "https://rpc-palvus.pion-1.ntrn.tech";
 

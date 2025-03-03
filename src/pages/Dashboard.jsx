@@ -47,9 +47,11 @@ const Dashboard = () => {
               Create a New Cooperative
             </button>
             </Link>
-            <button className="bg-primary mb-4 px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
+            <Link to="/fund">
+            <button className="bg-primary mt-4 px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
               Contribute Funds
             </button>
+            </Link>
             <Link to="/join">
             <button className="bg-primary mt-4 px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
               Request to Join a Cooperative

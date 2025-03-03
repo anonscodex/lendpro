@@ -12,7 +12,7 @@ const RepayLoan = () => {
 
   const CHAIN_ID = "pion-1";
   const RPC_ENDPOINT = "https://rpc-palvus.pion-1.ntrn.tech";
-  const CONTRACT_ADDRESS = "neutron1hjle7jv48ejfsq54lt8x6g6d7n4s7vxaln5rkt5tl09ms3x0tsssyf4vft"; // Replace with your contract address
+  const CONTRACT_ADDRESS = "neutron16qhawx7cy6cmte2jluu39d6j09emzml5yvmhdglyz0re99v6wpms0rh63m"; // Replace with your contract address
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,6 +20,23 @@ const RepayLoan = () => {
       ...formData,
       [name]: value,
     });
+  };
+
+  const queryMember = async (cooperativeName, userAddress) => {
+    const client = await SigningCosmWasmClient.connect(RPC_ENDPOINT);
+    const queryMsg = {
+      get_member: {
+        cooperative_name: cooperativeName,
+        address: userAddress,
+      },
+    };
+    try {
+      const result = await client.queryContractSmart(CONTRACT_ADDRESS, queryMsg);
+      return result;
+    } catch (error) {
+      console.error("Member not found:", error);
+      throw new Error("Member not found. Please check your address and cooperative name.");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -47,6 +64,18 @@ const RepayLoan = () => {
       // Retrieve the user's address
       const accounts = await offlineSigner.getAccounts();
       const userAddress = accounts[0].address;
+
+      // Check if the user is a member of the cooperative
+      try {
+        const member = await queryMember(formData.cooperativeName, userAddress);
+        if (!member) {
+          throw new Error("You are not a member of this cooperative.");
+        }
+      } catch (error) {
+        console.error("Membership check failed:", error);
+        setNotification("You are not a member of this cooperative. Please check your address and cooperative name.");
+        return;
+      }
 
       // Create a signing client
       const client = await SigningCosmWasmClient.connectWithSigner(
@@ -109,10 +138,10 @@ const RepayLoan = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background text-white p-4">
-      <h1 className="text-4xl font-bold text-primary mt-12 text-center">
+      <h1 className="text-4xl font-bold text-primary mb-12 text-center">
         Repay Loan
       </h1>
-      <div className="bg-gray-700 mt-12 p-6 rounded-lg shadow-lg w-full max-w-2xl">
+      <div className="bg-gray-700 p-6 rounded-lg shadow-lg w-full max-w-2xl">
         <h2 className="text-2xl font-bold text-primary mb-4">Loan Repayment</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

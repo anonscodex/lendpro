@@ -22,6 +22,7 @@ const CreateCooperative = () => {
 
   const CHAIN_ID = "pion-1";
   const RPC_ENDPOINT = "https://rpc-palvus.pion-1.ntrn.tech";
+  const CONTRACT_ADDRESS = "neutron16qhawx7cy6cmte2jluu39d6j09emzml5yvmhdglyz0re99v6wpms0rh63m"; // Replace with your contract address
 
   const createCooperative = async () => {
     try {
@@ -32,6 +33,10 @@ const CreateCooperative = () => {
         { gasPrice: GasPrice.fromString("0.025untrn") }
       );
 
+      // Retrieve the user's address
+      const accounts = await offlineSigner.getAccounts();
+      const userAddress = accounts[0].address;
+
       const riskProfile = {
         interest_rate: "0.05",
         collateralization_ratio: "1.5",
@@ -40,6 +45,14 @@ const CreateCooperative = () => {
       const initialMembers = [
         {
           address: "neutron107nhk9pqhp446fr0fc83z0v82rg9guy8runkuz",
+          contribution: [[0, "0"]],
+          share: [[0, "0"]],
+          joined_at: Math.floor(Date.now() / 1000),
+          reputation_score: "1.0",
+          active_loans: [],
+        },
+        {
+          address: "neutron12672sta0scfsr70d6snc49h0m2dekwj2wqq3xe",
           contribution: [[0, "0"]],
           share: [[0, "0"]],
           joined_at: Math.floor(Date.now() / 1000),
@@ -64,21 +77,23 @@ const CreateCooperative = () => {
 
       const msg = {
         create_cooperative: {
-          name: formData.name,
+          name: formData.name, // Use the cooperative name from the form
           risk_profile: riskProfile,
           initial_members: initialMembers,
           initial_whitelisted_tokens: initialWhitelistedTokens,
         },
       };
 
-      const result =  async() => await this.client.execute(
-        this.address,
-        CONTRACT_ADDRESS,
+      // Execute the transaction
+      const result = await client.execute(
+        userAddress, // Use the user's address
+        CONTRACT_ADDRESS, // Replace with your contract address
         msg,
         "auto"
       );
 
       console.log("Cooperative created:", result);
+      console.log("Cooperative Name:", formData.name); // Log the cooperative name
       setNotification("Cooperative created successfully!");
     } catch (error) {
       console.error("Failed to create cooperative:", error);
@@ -184,12 +199,3 @@ const CreateCooperative = () => {
 };
 
 export default CreateCooperative;
-
-
-
-const result =  async() => await this.client.execute(
-  this.address,
-  CONTRACT_ADDRESS,
-  msg,
-  "auto"
-);
