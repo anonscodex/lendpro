@@ -11,6 +11,7 @@ import Cooperative from "./pages/Cooperative";
 import CreateCooperative from "./pages/CreateCooperative";
 import RepayFund from "./pages/RepayFund";
 import Fund from "./pages/FundCooperative";
+import WithdrawFunds from "./pages/WithdrawFund";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/create-cooperative" element={<CreateCooperative />} />
           <Route path="/repay" element={<RepayFund />} />
           <Route path="/fund" element={<Fund />} />
+          <Route path="/withdraw" element={<WithdrawFunds />} />
         </Routes>
       </div>
     </Router>

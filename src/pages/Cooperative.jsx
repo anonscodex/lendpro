@@ -10,7 +10,7 @@ const Cooperatives = () => {
   const cooperatives = [
     { id: 1, name: "Ajor", members: 10, funds: 1000 },
     { id: 2, name: "Ajor2", members: 5, funds: 500 },
-    { id: 3, name: "Coop 3", members: 8, funds: 800 },
+    { id: 3, name: "Ajor3", members: 8, funds: 800 },
     { id: 4, name: "Coop 4", members: 12, funds: 1200 },
   ];
 
