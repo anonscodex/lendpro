@@ -5,10 +5,10 @@ import { GasPrice } from "@cosmjs/stargate";
 const BorrowFunds = () => {
   const [formData, setFormData] = useState({
     cooperativeName: "",
-    tokensIn: "", // Comma-separated list of token addresses
-    amountsIn: "", // Comma-separated list of amounts
-    tokenOut: "", // Address of the token to borrow
-    minAmountOut: "", // Minimum amount of token_out to receive
+    tokensIn: "", 
+    amountsIn: "", 
+    tokenOut: "", 
+    minAmountOut: "", 
   });
   const [notification, setNotification] = useState(null);
 
@@ -16,7 +16,7 @@ const BorrowFunds = () => {
   const RPC_ENDPOINT = "https://rpc-palvus.pion-1.ntrn.tech";
   const CONTRACT_ADDRESS = "neutron16qhawx7cy6cmte2jluu39d6j09emzml5yvmhdglyz0re99v6wpms0rh63m"; // Replace with your contract address
 
-  // Example list of valid tokens (replace with actual tokens from your contract)
+
   const validTokens = [
     { denom: "untrn", isNative: true }, // Native token
     { denom: "tAtom", isNative: false }, // CW20 token 1
@@ -109,7 +109,7 @@ const BorrowFunds = () => {
       setNotification("Borrow request submitted successfully!");
     } catch (error) {
       console.error("Failed to borrow:", error);
-      setNotification(`Failed to submit borrow request: ${error.message}`);
+      setNotification(`Failed to submit borrow request`);
     }
   };
 
@@ -134,41 +134,39 @@ const BorrowFunds = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-white text-lg mb-2">Tokens In (comma-separated addresses)</label>
+            <label className="block text-white text-lg mb-2">Tokens In</label>
             <input
               type="text"
               name="tokensIn"
               value={formData.tokensIn}
               onChange={handleChange}
               className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter token addresses (e.g., untrn, neutron1contractaddress1)"
+              placeholder="Enter token here"
               required
             />
-            <p className="text-sm text-gray-400 mt-1">
-              Valid tokens: untrn, neutron1contractaddress1, neutron1contractaddress2
-            </p>
+           
           </div>
           <div className="mb-4">
-            <label className="block text-white text-lg mb-2">Amounts In (comma-separated amounts)</label>
+            <label className="block text-white text-lg mb-2">Amounts In </label>
             <input
               type="text"
               name="amountsIn"
               value={formData.amountsIn}
               onChange={handleChange}
               className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter amounts (e.g., 100, 200)"
+              placeholder="Enter amounts here"
               required
             />
           </div>
           <div className="mb-4">
-            <label className="block text-white text-lg mb-2">Token Out (address)</label>
+            <label className="block text-white text-lg mb-2">Token Out </label>
             <input
               type="text"
               name="tokenOut"
               value={formData.tokenOut}
               onChange={handleChange}
               className="w-full bg-gray-600 p-3 rounded-lg text-white"
-              placeholder="Enter token out address"
+              placeholder="Enter token out here"
               required
             />
           </div>
