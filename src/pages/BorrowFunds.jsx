@@ -30,16 +30,7 @@ const BorrowFunds = () => {
     });
   };
 
-  const validateTokens = (tokens) => {
-    const tokenList = tokens.split(",").map((token) => token.trim());
-    for (const token of tokenList) {
-      const isValid = validTokens.some((validToken) => validToken.denom === token);
-      if (!isValid) {
-        throw new Error(`Invalid token: ${token}`);
-      }
-    }
-  };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -57,8 +48,7 @@ const BorrowFunds = () => {
 
     try {
       // Validate tokens
-      validateTokens(formData.tokensIn);
-      validateTokens(formData.tokenOut);
+      
 
       // Ensure Keplr is installed and connected
       if (!window.keplr) {

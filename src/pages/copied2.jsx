@@ -140,3 +140,111 @@ const runExample = async () => {
   };
   
   runExample().catch(console.error);
+
+
+
+
+
+  //view cooperatie code 
+  import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import { GasPrice } from "@cosmjs/stargate";
+
+const CHAIN_ID = "pion-1";
+const RPC_ENDPOINT = "https://rpc-palvus.pion-1.ntrn.tech";
+const CONTRACT_ADDRESS = "neutron16qhawx7cy6cmte2jluu39d6j09emzml5yvmhdglyz0re99v6wpms0rh63m";
+
+const Cooperatives = () => {
+  const [cooperatives, setCooperatives] = useState([]);
+  const [notification, setNotification] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCooperatives = async () => {
+      try {
+        if (!window.keplr) {
+          setNotification("Please install Keplr wallet to proceed.");
+          return;
+        }
+
+        await window.keplr.enable(CHAIN_ID);
+        const offlineSigner = window.keplr.getOfflineSigner(CHAIN_ID);
+        const client = await SigningCosmWasmClient.connectWithSigner(
+          RPC_ENDPOINT,
+          offlineSigner,
+          { gasPrice: GasPrice.fromString("0.025untrn") }
+        );
+
+        const query = { list_cooperatives: {} };
+        const result = await client.queryContractSmart(CONTRACT_ADDRESS, query);
+        setCooperatives(result.cooperatives || []);
+      } catch (error) {
+        console.error("Failed to fetch cooperatives:", error);
+        setNotification("Failed to load cooperatives. Please try again.");
+      }
+    };
+
+    fetchCooperatives();
+  }, []);
+
+  const handleViewDetails = async (cooperativeName) => {
+    try {
+      if (!window.keplr) {
+        alert("Please install Keplr wallet to proceed.");
+        return;
+      }
+
+      await window.keplr.enable(CHAIN_ID);
+      const offlineSigner = window.keplr.getOfflineSigner(CHAIN_ID);
+      const client = await SigningCosmWasmClient.connectWithSigner(
+        RPC_ENDPOINT,
+        offlineSigner,
+        { gasPrice: GasPrice.fromString("0.025untrn") }
+      );
+
+      const query = { get_cooperative: { cooperative_name: cooperativeName } };
+      const result = await client.queryContractSmart(CONTRACT_ADDRESS, query);
+
+      navigate(`/cooperative-details`, { state: { details: result } });
+    } catch (error) {
+      console.error("Failed to get cooperative details:", error);
+      setNotification("Failed to fetch cooperative details. Please try again.");
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center min-h-screen bg-background text-white p-4">
+      <h1 className="text-4xl font-bold text-primary mb-12 text-center">Cooperatives</h1>
+      <div className="w-full max-w-4xl space-y-6">
+        {cooperatives.length > 0 ? (
+          cooperatives.map((coop, index) => (
+            <div key={index} className="bg-gray-700 p-6 rounded-lg shadow-lg flex flex-col md:flex-row items-center justify-between">
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold text-primary mb-2">{coop.name}</h2>
+                <p className="text-lg">Members: {coop.members}</p>
+                <p className="text-lg">Funds: ${coop.funds}</p>
+              </div>
+              <button
+                className="bg-primary px-6 py-3 rounded-lg text-lg hover:bg-purple-700 transition"
+                onClick={() => handleViewDetails(coop.name)}
+              >
+                View Details
+              </button>
+            </div>
+          ))
+        ) : (
+          <p className="text-lg">No cooperatives found.</p>
+        )}
+      </div>
+
+      {notification && (
+        <div className="mt-6 p-4 bg-red-800 rounded-lg">
+          <p className="text-white text-lg">{notification}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Cooperatives;

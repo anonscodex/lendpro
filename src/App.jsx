@@ -12,6 +12,7 @@ import CreateCooperative from "./pages/CreateCooperative";
 import RepayFund from "./pages/RepayFund";
 import Fund from "./pages/FundCooperative";
 import WithdrawFunds from "./pages/WithdrawFund";
+import CreateProposalPage from "./pages/CreateProposal";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/cooperative/:id" element={<CooperativeDetails />} />
+          <Route path="/cooperative-details" element={<CooperativeDetails />} />
           <Route path="/join" element={<JoinCooperative />} />
          <Route path="/cooperative" element={<Cooperative />} />
           <Route path="/borrow" element={<BorrowFunds />} />
@@ -29,6 +30,7 @@ function App() {
           <Route path="/repay" element={<RepayFund />} />
           <Route path="/fund" element={<Fund />} />
           <Route path="/withdraw" element={<WithdrawFunds />} />
+          <Route path="/create-proposal" element={<CreateProposalPage />} />
         </Routes>
       </div>
     </Router>
