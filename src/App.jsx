@@ -13,6 +13,8 @@ import RepayFund from "./pages/RepayFund";
 import Fund from "./pages/FundCooperative";
 import WithdrawFunds from "./pages/WithdrawFund";
 import CreateProposalPage from "./pages/CreateProposal";
+import ApproveProposalPage from "./pages/ApproveProposal";
+import IncreaseAllowancePage from "./pages/IncreaseAllowance";
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
           <Route path="/fund" element={<Fund />} />
           <Route path="/withdraw" element={<WithdrawFunds />} />
           <Route path="/create-proposal" element={<CreateProposalPage />} />
+          <Route path="/approve-proposal" element={<ApproveProposalPage />} />
+          <Route path="/increase-allowance" element={<IncreaseAllowancePage />} />
         </Routes>
       </div>
     </Router>

@@ -22,22 +22,22 @@ const RepayLoan = () => {
     });
   };
 
-  const queryMember = async (cooperativeName, userAddress) => {
-    const client = await SigningCosmWasmClient.connect(RPC_ENDPOINT);
-    const queryMsg = {
-      get_member: {
-        cooperative_name: cooperativeName,
-        address: userAddress,
-      },
-    };
-    try {
-      const result = await client.queryContractSmart(CONTRACT_ADDRESS, queryMsg);
-      return result;
-    } catch (error) {
-      console.error("Member not found:", error);
-      throw new Error("Member not found. Please check your address and cooperative name.");
-    }
-  };
+ // const queryMember = async (cooperativeName, userAddress) => {
+  //  const client = await SigningCosmWasmClient.connect(RPC_ENDPOINT);
+    //const queryMsg = {
+      //get_member: {
+        //cooperative_name: cooperativeName,
+        //address: userAddress,
+      //},
+    //};
+    //try {
+      //const result = await client.queryContractSmart(CONTRACT_ADDRESS, queryMsg);
+      //return result;
+    //} catch (error) {
+      //console.error("Member not found:", error);
+      //throw new Error("Member not found. Please check your address and cooperative name.");
+    //}
+  //};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,16 +66,16 @@ const RepayLoan = () => {
       const userAddress = accounts[0].address;
 
       // Check if the user is a member of the cooperative
-      try {
-        const member = await queryMember(formData.cooperativeName, userAddress);
-        if (!member) {
-          throw new Error("You are not a member of this cooperative.");
-        }
-      } catch (error) {
-        console.error("Membership check failed:", error);
-        setNotification("You are not a member of this cooperative. Please check your address and cooperative name.");
-        return;
-      }
+      //try {
+        //const member = await queryMember(formData.cooperativeName, userAddress);
+        //if (!member) {
+          //throw new Error("You are not a member of this cooperative.");
+        //}
+      //} catch (error) {
+        //console.error("Membership check failed:", error);
+        //setNotification("You are not a member of this cooperative. Please check your address and cooperative name.");
+        //return;
+      //}
 
       // Create a signing client
       const client = await SigningCosmWasmClient.connectWithSigner(
