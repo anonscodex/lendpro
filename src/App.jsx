@@ -15,6 +15,10 @@ import WithdrawFunds from "./pages/WithdrawFund";
 import CreateProposalPage from "./pages/CreateProposal";
 import ApproveProposalPage from "./pages/ApproveProposal";
 import IncreaseAllowancePage from "./pages/IncreaseAllowance";
+import ProposalInfo from "./pages/ProposalInfo";
+import ExecuteProposalPage from "./pages/ExecuteProposal";
+import WithdrawWeightPage from "./pages/WithdrawProposal";
+
 
 function App() {
   return (
@@ -35,6 +39,9 @@ function App() {
           <Route path="/create-proposal" element={<CreateProposalPage />} />
           <Route path="/approve-proposal" element={<ApproveProposalPage />} />
           <Route path="/increase-allowance" element={<IncreaseAllowancePage />} />
+          <Route path="/proposal-info" element={<ProposalInfo />} />
+          <Route path="/execute-proposal" element={<ExecuteProposalPage />} />
+          <Route path="/withdraw-weight" element={<WithdrawWeightPage />} />
         </Routes>
       </div>
     </Router>
