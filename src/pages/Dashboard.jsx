@@ -37,9 +37,9 @@ const Dashboard = () => {
         <div className="bg-gray-700 p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold text-primary mb-6">Quick Actions</h2>
           <div className="space-y-4">
-            <Link to="/cooperative">
+            <Link to="/withdraw">
             <button className="bg-primary mb-4 px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
-              View Cooperative Details
+              Withdraw Funds
             </button>
             </Link>
             <Link to="/create-cooperative">
