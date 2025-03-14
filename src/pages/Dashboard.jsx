@@ -38,25 +38,17 @@ const Dashboard = () => {
           <h2 className="text-2xl font-bold text-primary mb-6">Quick Actions</h2>
           <div className="space-y-4">
             <Link to="/withdraw">
-            <button className="bg-primary mb-4 px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
+            <button className="bg-primary  px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
               Withdraw Funds
             </button>
             </Link>
-            <Link to="/create-cooperative">
-            <button className="bg-primary  px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
-              Create a New Cooperative
-            </button>
-            </Link>
+            
             <Link to="/fund">
             <button className="bg-primary mt-4 px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
               Contribute Funds
             </button>
             </Link>
-            <Link to="/join">
-            <button className="bg-primary mt-4 px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
-              Request to Join a Cooperative
-            </button>
-            </Link>
+           
             <Link to="/borrow">
             <button className="bg-primary mt-4 px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
               Borrow Funds
@@ -65,6 +57,16 @@ const Dashboard = () => {
             <Link to="/repay">
             <button className="bg-primary mt-4 px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
               Repay Funds
+            </button>
+            </Link>
+            <Link to="/join">
+            <button className="bg-primary mt-4 px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
+              Request to Join a Cooperative
+            </button>
+            </Link>
+            <Link to="/create-cooperative">
+            <button className="bg-primary mt-4  px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
+              Proposals
             </button>
             </Link>
           </div>
