@@ -68,9 +68,7 @@ const Navbar = () => {
           <Link to="/dashboard" className="block text-white hover:text-primary">
             Dashboard
           </Link>
-          <Link to="/join" className="block text-white hover:text-primary">
-            Join Cooperative
-          </Link>
+          
           <WalletConnection />
         </div>
       </div>
