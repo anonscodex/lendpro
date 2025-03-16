@@ -18,6 +18,7 @@ import IncreaseAllowancePage from "./pages/IncreaseAllowance";
 import ProposalInfo from "./pages/ProposalInfo";
 import ExecuteProposalPage from "./pages/ExecuteProposal";
 import WithdrawWeightPage from "./pages/WithdrawProposal";
+import GeneralProposalPage from "./pages/GeneralProposal";
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
           <Route path="/proposal-info" element={<ProposalInfo />} />
           <Route path="/execute-proposal" element={<ExecuteProposalPage />} />
           <Route path="/withdraw-weight" element={<WithdrawWeightPage />} />
+          <Route path="/general-proposal" element={<GeneralProposalPage />} />
         </Routes>
       </div>
     </Router>

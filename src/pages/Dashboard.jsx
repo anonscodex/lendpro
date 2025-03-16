@@ -64,7 +64,7 @@ const Dashboard = () => {
               Join a Cooperative
             </button>
             </Link>
-            <Link to="/create-cooperative">
+            <Link to="/general-proposal">
             <button className="bg-primary mt-4  px-6 py-3 rounded-lg text-lg w-full hover:bg-purple-700 transition duration-300">
               Proposals
             </button>
