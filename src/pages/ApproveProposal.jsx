@@ -141,7 +141,7 @@ const ApproveProposalPage = () => {
         </div>
       </form>
       {notification && (
-        <div className="mt-6 p-4 bg-red-800 rounded-lg">
+        <div className="mt-6 p-4 bg-green-800 rounded-lg">
           <p className="text-white text-lg">{notification}</p>
         </div>
       )}
